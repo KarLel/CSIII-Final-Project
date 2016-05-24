@@ -3,8 +3,10 @@
  * 5/24/2016f
  * Mrs. G
  */
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 /**
  * The log class displays logs that the frog can use to get to the bank
@@ -22,7 +24,11 @@ public class Log{
 	 */
 	public Log(JComponent c,int xPos){
 		component = c; speed = 5; width = 165; height = 60;
-		log = Toolkit.getDefaultToolkit().createImage("C:\\Users\\Karthik\\Documents\\GitHub\\CSIII-Final-Project\\src\\Log.png");
+		ClassLoader loader = Thread.currentThread().getContextClassLoader();
+		try{
+			log = ImageIO.read(ClassLoader.getSystemResourceAsStream("Log.png"));
+		}
+		catch(IOException ex){}
 		switch ((int)((Math.random()*3)+1)) {
 			case 1: y = 85; x = xPos; break;
 			case 2: y = 158; x = xPos; break;
@@ -35,14 +41,14 @@ public class Log{
 	 */
 	public void animate() throws InterruptedException{
 		while(true){
-			if(y == 85 || y == 230 && x < 1000){
-				if(x > 950)
-					x = -180; 
+			if(y == 85 || y == 230 && x < 950){
+				if(x > 900)
+					x = -100; 
 				x += speed;
 			}
 			else if(y == 158 && x > -200){
-				if(x < -181)
-					x = 900;
+				if(x < -80)
+					x = 980;
 				x -= speed;
 			}			
 			pause();

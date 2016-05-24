@@ -3,8 +3,10 @@
  * 5/23/2016
  * Mrs. G
  */
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 /**
  * The Vehicle class creates a vehicle with given values
  * @author Karthik
@@ -14,6 +16,7 @@ public class Vehicle{
 	private double x, y, width, height, speed;
 	private Image car;
 	private JComponent component;
+	private ClassLoader loader;
 	
 	/**
 	 * Creates a new vehicle object
@@ -22,18 +25,32 @@ public class Vehicle{
 	 */
 	public Vehicle(JComponent c, int xPos){
 		component = c; speed = 5;
+		loader = Thread.currentThread().getContextClassLoader();
 		switch((int)(Math.random()*4)+1){
 			case 1: 
-				car = Toolkit.getDefaultToolkit().createImage("C:\\Users\\Karthik\\Documents\\GitHub\\CSIII-Final-Project\\src\\Truck.png");
+				try{
+					car = ImageIO.read(ClassLoader.getSystemResourceAsStream("Truck.png"));
+				}
+				catch(IOException ex){}
 				width = 132; height = 65; break;
 			case 2: 
-				car = Toolkit.getDefaultToolkit().createImage("C:\\Users\\Karthik\\Documents\\GitHub\\CSIII-Final-Project\\src\\Ambulance.png");
+				try{
+					car = ImageIO.read(ClassLoader.getSystemResourceAsStream("Ambulance.png"));
+				}
+				catch(IOException ex){}
 				width = 115; height = 65; break;
 			case 3: 
-				car = Toolkit.getDefaultToolkit().createImage("C:\\Users\\Karthik\\Documents\\GitHub\\CSIII-Final-Project\\src\\CarOne.png");
+				try{
+					car = ImageIO.read(ClassLoader.getSystemResourceAsStream("CarOne.png"));
+				}
+				catch(IOException ex){}
 				width = 115; height = 57; break;
 			case 4: 
-				car = Toolkit.getDefaultToolkit().createImage("C:\\Users\\Karthik\\Documents\\GitHub\\CSIII-Final-Project\\src\\Lambo.png");
+				ClassLoader loader = Thread.currentThread().getContextClassLoader();
+				try{
+					car = ImageIO.read(ClassLoader.getSystemResourceAsStream("Lambo.png"));
+				}
+				catch(IOException ex){}
 				width = 115; height = 57; break;
 		}
 		switch ((int)(Math.random()*4)+1) {
@@ -48,8 +65,8 @@ public class Vehicle{
 	 */
 	public void animate() throws InterruptedException{
 		while(true){
-			if(y == 450 || y == 525 && x < 1050){
-				if(x > 1000)
+			if(y == 450 || y == 525 && x < 950){
+				if(x > 900)
 					x = -100; 
 				x += speed;
 			}

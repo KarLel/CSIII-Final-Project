@@ -5,6 +5,10 @@
  */
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -17,6 +21,10 @@ public class WelcomeFrame extends JFrame implements ActionListener{
 	private JButton helpButton;
 	private JButton scoreButton;
 	private JButton creditButton;
+	private Image playImage;
+	private Image helpImage;
+	private Image scoreImage;
+	private Image creditImage;
 	
 	/**
 	 * Creates a WelcomeFrame object
@@ -27,10 +35,19 @@ public class WelcomeFrame extends JFrame implements ActionListener{
 		scoreButton	 = new JButton("HIGH SCORES");
 		creditButton = new JButton("CREDITS");
 		
-		playButton.setIcon(new ImageIcon("C:\\Users\\Karthik\\Documents\\GitHub\\CSIII-Final-Project\\src\\PlayButton.png"));
-		helpButton.setIcon(new ImageIcon("C:\\Users\\Karthik\\Documents\\GitHub\\CSIII-Final-Project\\src\\HelpButton.png"));
-		scoreButton.setIcon(new ImageIcon("C:\\Users\\Karthik\\Documents\\GitHub\\CSIII-Final-Project\\src\\ScoresButton.png"));
-		creditButton.setIcon(new ImageIcon("C:\\Users\\Karthik\\Documents\\GitHub\\CSIII-Final-Project\\src\\CreditsButton.png"));
+		ClassLoader loader = Thread.currentThread().getContextClassLoader();
+		try{
+			playImage = ImageIO.read(ClassLoader.getSystemResourceAsStream("PlayButton.png"));
+			helpImage = ImageIO.read(ClassLoader.getSystemResourceAsStream("HelpButton.png"));
+			scoreImage = ImageIO.read(ClassLoader.getSystemResourceAsStream("ScoresButton.png"));
+			creditImage = ImageIO.read(ClassLoader.getSystemResourceAsStream("CreditsButton.png"));
+			
+			playButton.setIcon(new ImageIcon(playImage));
+			helpButton.setIcon(new ImageIcon(helpImage));
+			scoreButton.setIcon(new ImageIcon(scoreImage));
+			creditButton.setIcon(new ImageIcon(creditImage));
+		}
+		catch(IOException ex){}
 		
 		playButton.addActionListener(this);
 		helpButton.addActionListener(this);

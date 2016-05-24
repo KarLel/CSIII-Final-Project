@@ -5,7 +5,10 @@
  */
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.*;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -14,10 +17,12 @@ import javax.swing.*;
  */
 public class GameComponent extends JComponent{
 	private Image field;
-	private static Stack<Vehicle> cars;
-	private static LinkedList<Log> logs;
+	private Stack<Vehicle> cars;
+	private LinkedList<Log> logs;
 	private Frog frog;
 	private JFrame frame;
+	private boolean logged;
+	private Log current;
 	
 	/**
 	 * Creates a GameComponent object 
@@ -30,8 +35,14 @@ public class GameComponent extends JComponent{
 		fillVehicles(7);
 		fillLogs(6);
 		frog = new Frog(this, frame);
-		field = Toolkit.getDefaultToolkit().createImage("C:\\Users\\Karthik\\Documents\\GitHub\\CSIII-Final-Project\\src\\Field.png");
+		ClassLoader loader = Thread.currentThread().getContextClassLoader();
+		try{
+			field = ImageIO.read(ClassLoader.getSystemResourceAsStream("Field.png"));
+		}
+		catch(IOException ex){}
 		implementKeyListener();
+		logged = false;
+		current = null;
 	}
 	/**
 	 * paints all the objects on the graphics
@@ -42,18 +53,32 @@ public class GameComponent extends JComponent{
 		gr.drawImage(field, 0, 0, null);
 		for(Vehicle car: cars){
 			gr.drawImage(car.getImage(), (int)car.getX(), (int)car.getY(), null);
-//			if(frog.carCollision(car)){
-//				frame.dispose();
-//				LoserFrame frame = new LoserFrame();
-//			}
-		}
-		for(Log log: logs){
-			gr.drawImage(log.getImage(), (int)log.getX(), (int)log.getY(), null);
-			if(!frog.onLog(log)){
+			if(frog.carCollision(car)){
 				frame.dispose();
-				LoserFrame frame = new LoserFrame();
+				LoserFrame loserFrame = new LoserFrame();
 			}
 		}
+		for(Vehicle car: cars){
+			gr.drawImage(car.getImage(), (int)car.getX(), (int)car.getY(), null);
+			if(frog.carCollision(car)){
+				frame.dispose();
+				LoserFrame loserFrame = new LoserFrame();
+			}
+		}
+//		for(Log log: logs){
+//			gr.drawImage(log.getImage(), (int)log.getX(), (int)log.getY(), null);
+			if(current != null && !frog.onLog(current)){
+				for(Log l: logs){
+					gr.drawImage(l.getImage(), (int)l.getX(), (int)l.getY(), null);
+					frame.dispose(); 
+					LoserFrame loserFrame = new LoserFrame();
+				}
+			}
+			else{
+				for(Log log: logs){
+					gr.drawImage(log.getImage(), (int)log.getX(), (int)log.getY(), null);
+				}
+			}
 		gr.drawImage(frog.getImage(), (int)frog.getX(), (int)frog.getY(), null);
 		repaint();
 	}
@@ -102,7 +127,7 @@ public class GameComponent extends JComponent{
 			logs.add(new Log(this, x));
 	}
 	/**
-	 * Listens for the user input ot move the frog
+	 * Listens for the user input to move the frog
 	 */
 	private void implementKeyListener(){
 		addKeyListener(new KeyListener() {

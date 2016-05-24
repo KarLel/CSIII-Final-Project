@@ -7,6 +7,9 @@
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
@@ -29,7 +32,11 @@ public class Frog{
 	 */
 	public Frog(JComponent c, JFrame f) {
 		frame = f; x = 450; y = 605; component = c; width = 65; height = 55; horizontal = false;
-		frog = Toolkit.getDefaultToolkit().createImage("C:\\Users\\Karthik\\Documents\\GitHub\\CSIII-Final-Project\\src\\Frog.png");
+		ClassLoader loader = Thread.currentThread().getContextClassLoader();
+		try{
+			frog = ImageIO.read(ClassLoader.getSystemResourceAsStream("Frog.png"));
+		}
+		catch(IOException ex){}
 	}
 	/**
 	 * Moves the frog depending on the users keyboard input
@@ -58,7 +65,7 @@ public class Frog{
 			return false;
 		else{
 			if(getFrogLane() == car.getVehicleLane())
-				return (x > car.getX() && x < car.getX() + car.getWidth());
+				return (x > (car.getX()-10) && x < (car.getX() + car.getWidth()));
 		}
 		return false;
 	}
@@ -69,10 +76,9 @@ public class Frog{
 	 */
 	public boolean onLog(Log log){	
 		if((y == 235 || y == 161 || y == 87) && (getFrogLane() == log.getLogLane())){
-//			System.out.println("Log Width: " + (int)log.getWidth() + (int)log.getX());
-			System.out.println("Log : " + (log.getX()-50) + " - " + (log.getX() + 165));
-			System.out.println("Frog : " + x);
-			return (x > (log.getX()-50) && x < (log.getX() + 165));
+//			System.out.println("Log : " + (log.getX()-50) + " - " + (log.getX() + 165));
+//			System.out.println("Frog : " + x);
+			return (x > (log.getX()) && x < (log.getX() + log.getWidth()));
 		}
 		return true;
 	}

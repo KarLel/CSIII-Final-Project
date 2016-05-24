@@ -4,6 +4,10 @@
  * 5/23/2016
  */
 
+import java.awt.Image;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -11,7 +15,7 @@ import javax.swing.*;
  * @author Karthik
  */
 public class LoserFrame extends JFrame{
-	
+	private Image image;
 	/**
 	 * Creates a LoserFrame object
 	 */
@@ -19,7 +23,12 @@ public class LoserFrame extends JFrame{
 		setTitle("BETTER LUCK NEXT TIME!!!");
 		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setContentPane(new JLabel(new ImageIcon("C:\\Users\\Karthik\\Documents\\GitHub\\CSIII-Final-Project\\src\\Loser.png")));
+		ClassLoader loader = Thread.currentThread().getContextClassLoader();
+		try{
+			image = ImageIO.read(ClassLoader.getSystemResourceAsStream("loser.png"));
+		}
+		catch(IOException ex){}
+		setContentPane(new JLabel(new ImageIcon(image)));
 		setSize(599,599);
 		setSize(600,600);
 		setLocationRelativeTo(null);
