@@ -1,9 +1,15 @@
 import javax.swing.JFrame;
 
-@SuppressWarnings("serial")
+/**
+ * Creates a game object that displays changes made in the game component
+ * @author Karthik
+ *
+ */
 public class Game extends JFrame{
 	private GameComponent GameComponent;
-	
+	/**
+	 * Creates a Game object
+	 */
 	public Game(){
 		// TODO Auto-generated constructor stub
 		GameComponent = new GameComponent(this);
@@ -17,8 +23,5 @@ public class Game extends JFrame{
 		setVisible(true);
 		GameComponent.startAnimation();
 		GameComponent.startLogAnimation();
-	}
-	public void terminate(){
-		dispose();
 	}
 }

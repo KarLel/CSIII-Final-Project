@@ -1,10 +1,19 @@
+/*
+ * Karthik Lella
+ * 5/23/2016
+ * Mrs. G
+ */
+
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
+/*
+ * A class that creates a frog object whose objective
+ * it is to get to the river bank
+ */
 public class Frog{
 	private int x, y, width, height;
 	private int speed = 74;
@@ -13,16 +22,21 @@ public class Frog{
 	JComponent component;
 	JFrame frame;
 	
+	/**
+	 * Creates a frog object
+	 * @param c the JComponent
+	 * @param f the JFrame
+	 */
 	public Frog(JComponent c, JFrame f) {
 		frame = f; x = 450; y = 605; component = c; width = 65; height = 55; horizontal = false;
-		frog = Toolkit.getDefaultToolkit().createImage("C:\\Users\\karth\\workspace\\CSIII Final Project\\bin\\Frog.png");
+		frog = Toolkit.getDefaultToolkit().createImage("C:\\Users\\Karthik\\Documents\\GitHub\\CSIII-Final-Project\\src\\Frog.png");
 	}
-	public void move(boolean onLog){
-		if(onLog){
-			x -= 5;
-		}
-		if(horizontal && x + speed/4 > 0 && x + speed < 960){
-			x += (speed/4);
+	/**
+	 * Moves the frog depending on the users keyboard input
+	 */
+	public void move(){
+		if(horizontal && x + speed/2 > 0 && x + speed < 960){
+			x += (speed/2);
 		}
 		else if(!horizontal && y + speed > 0 && y + speed < 620){
 			y += speed;
@@ -34,6 +48,11 @@ public class Frog{
 		}
 		component.repaint();
 	}
+	/**
+	 * Determines whether the frog is in collision with a car
+	 * @param car the car to determine the collision
+	 * @return whether or not the frog and car are colliding
+	 */
 	public boolean carCollision(Vehicle car){		
 		if(car.getVehicleLane() == -1 || getFrogLane() == -1)
 			return false;
@@ -43,15 +62,24 @@ public class Frog{
 		}
 		return false;
 	}
-	public boolean logCollision(Log log){		
-		if(log.getLogLane() == -1 || getFrogLane() == -1)
-			return false;
-		else{
-			if(getFrogLane() == log.getLogLane())
-				return (x > log.getX() && x < log.getX() + log.getWidth());
+	/**
+	 * Determines whether the frog is on the log
+	 * @param log the log to determine the collision
+	 * @return whether or not the frog is on the log
+	 */
+	public boolean onLog(Log log){	
+		if((y == 235 || y == 161 || y == 87) && (getFrogLane() == log.getLogLane())){
+//			System.out.println("Log Width: " + (int)log.getWidth() + (int)log.getX());
+			System.out.println("Log : " + (log.getX()-50) + " - " + (log.getX() + 165));
+			System.out.println("Frog : " + x);
+			return (x > (log.getX()-50) && x < (log.getX() + 165));
 		}
-		return false;
+		return true;
 	}
+	/**
+	 * Determines which lane the from is in
+	 * @return the lane that the frog is in
+	 */
 	public int getFrogLane(){
 		if(y == 309 || y == 235)
 			return 1;		
@@ -63,26 +91,58 @@ public class Frog{
 			return 4;
 		return -1;
 	}
+	/**
+	 * Returns the x value of the frog
+	 * @return the x value of the frog
+	 */
 	public int getX() {
 		return x;
 	}
+	/**
+	 * Returns the y value of the frog
+	 * @return the y value of the frog
+	 */
 	public int getY() {
 		return y;
 	}
+	/**
+	 * Returns the width of the frog
+	 * @return the width of the frog
+	 */
 	public int getWidth() {
 		return width;
 	}
+	/**
+	 * Returns the height of the frog
+	 * @return the height of the frog
+	 */
 	public int getHeight() {
 		return height;
 	}
+	/**
+	 * Returns the image of the frog
+	 * @return the image of the frog
+	 */
 	public Image getImage() {
 		return frog;
 	}
+	/**
+	 * Gets the user keyboard input
+	 * @param e the user keyboard input
+	 */
 	public void keyTyped(KeyEvent e) {
 	}
+	/**
+	 * Gets the user keyboard input
+	 * @param e the user keyboard input
+	 */
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 	}
+	/**
+	 * Gets the user keyboard input
+	 * @param e the user keyboard input
+	 */
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getKeyCode() == KeyEvent.VK_UP){

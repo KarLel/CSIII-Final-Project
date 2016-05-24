@@ -1,8 +1,17 @@
+/*
+ * Karthik Lella
+ * 5/23/2016
+ * Mrs. G
+ */
 import javax.swing.*;
-
-@SuppressWarnings("serial")
+/**
+ * This class shows all the credits for the game
+ * @author Karthik
+ */
 public class CreditsFrame extends JFrame{
-	
+	/**
+	 * Creates a credits object
+	 */
 	public CreditsFrame(){
 		
 		setTitle("Credits");
